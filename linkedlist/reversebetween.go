@@ -7,7 +7,7 @@ package linkedlist
 // 2.找到位置right节点以及它的前后一个节点
 // 3.从链表中断开从位置left到right的作为新链表
 // 4.缝合
-func reversebetwwen[T any](head *ListNode[T], left, right int) *ListNode[T] {
+func reversebetwwen[T Ordered](head *ListNode[T], left, right int) *ListNode[T] {
 	var zero T
 	dummy := &ListNode[T]{Val: zero, Next: head}
 

@@ -6,10 +6,10 @@ import (
 )
 
 func TestReverseList(t *testing.T) {
-	type args[T any] struct {
+	type args[T Ordered] struct {
 		head *ListNode[T]
 	}
-	type testCase[T any] struct {
+	type testCase[T Ordered] struct {
 		name string
 		args args[T]
 		want args[T]

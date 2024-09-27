@@ -4,12 +4,16 @@ package linkedlist
 //输入：head=[1,2,3,4,5]    (1->2->3->4->5)
 //输出：[5,4,3,2,1]	   (5->4->3->2->1)
 
-type ListNode[T any] struct {
+// // 自定义约束接口，表示可以进行比较的类型
+type Ordered interface {
+	~int | ~float64 | ~string
+}
+type ListNode[T Ordered] struct {
 	Val  T
 	Next *ListNode[T]
 }
 
-func reverseList[T any](head *ListNode[T]) *ListNode[T] {
+func reverseList[T Ordered](head *ListNode[T]) *ListNode[T] {
 	// 在head节点前面添加一个空节点，保存当前节点的前一个节点
 	// 理解为隐藏的Pre，方便移动
 	var prev *ListNode[T]

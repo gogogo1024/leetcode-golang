@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func isEqual[T any](l1, l2 *ListNode[T]) bool {
+func isEqual[T Ordered](l1, l2 *ListNode[T]) bool {
 	for l1 != nil && l2 != nil {
 		if !reflect.DeepEqual(l1.Val, l2.Val) { // 使用 reflect.DeepEqual 比较值
 			return false
@@ -17,12 +17,12 @@ func isEqual[T any](l1, l2 *ListNode[T]) bool {
 }
 
 func Test_reversebetwwen(t *testing.T) {
-	type args[T any] struct {
+	type args[T Ordered] struct {
 		head  *ListNode[T]
 		left  int
 		right int
 	}
-	type testCase[T any] struct {
+	type testCase[T Ordered] struct {
 		name string
 		args args[T]
 		//want *ListNode[T]
