@@ -61,3 +61,26 @@ func findCycleEntry[T Ordered](head *ListNode[T]) *ListNode[T] {
 	// 相遇点就是环的入口点
 	return slow
 }
+
+// 通过指针的切换，使两个指针走过相同的路径长度（两个链表首尾相连）
+// 从而能够在相交节点相遇
+// 找到2个链表中的相交起始点
+func findIntersection[T Ordered](head1 *ListNode[T], head2 *ListNode[T]) *ListNode[T] {
+	if head1 == nil || head2 == nil {
+		return nil
+	}
+	headA, headB := head1, head2
+	for headA != headB {
+		if headA == nil {
+			headA = head2
+		} else {
+			headA = headA.Next
+		}
+		if headB == nil {
+			headB = head1
+		} else {
+			headB = headB.Next
+		}
+	}
+	return headA
+}
