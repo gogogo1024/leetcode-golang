@@ -16,14 +16,19 @@ func Test_parisum(t *testing.T) {
 		wantAns [][]int
 	}{
 		{
-			name:    "parisum",
+			name:    "parisum1",
 			args:    args{nums: []int{5, 6, 5}, target: 11},
 			wantAns: [][]int{{5, 6}},
+		},
+		{
+			name:    "parisum1",
+			args:    args{nums: []int{5, 6, 5, 6}, target: 11},
+			wantAns: [][]int{{5, 6}, {5, 6}},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotAns := parisum(tt.args.nums, tt.args.target); !reflect.DeepEqual(gotAns, tt.wantAns) {
+			if gotAns := pariSum(tt.args.nums, tt.args.target); !reflect.DeepEqual(gotAns, tt.wantAns) {
 				t.Errorf("parisum() = %v, want %v", gotAns, tt.wantAns)
 			}
 		})
