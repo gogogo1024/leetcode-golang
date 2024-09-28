@@ -4,6 +4,7 @@ package doubleptr
 //输入: height = [0,1,0,2,1,0,1,3,2,1,2,1]
 //输出: 6
 //Trapping Rain Water
+//原理 当前柱子的高度小于左或右的最高柱子，意味着可以接雨水；否则更新最高柱子的高度
 
 func trapRainWater(height []int) (water int) {
 	left, right := 0, len(height)-1
