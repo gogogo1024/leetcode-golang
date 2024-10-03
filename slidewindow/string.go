@@ -1,5 +1,7 @@
 package slidewindow
 
+import "math"
+
 // 给定一个字符串 s ，请你找出其中不含有重复字符的最长子串的长度。
 // 子串 (Substring) 是指字符串中连续的字符组成的片段。
 // 例如, 对于字符串"abcxyz", 它的子串有"bcx"、"xyz" 等.
@@ -96,7 +98,7 @@ func shortestSeq[T Ordered](big []T, small []T) []int {
 			// 准备收缩窗口，移除左边元素
 			leftElem := big[l]
 			if _, ok := require[leftElem]; ok {
-				// 窗口中的该元素数量减少
+				// 窗口中的该元素数量减少,因为只有同一个元素对应个数相等，l需要右移，就必须
 				if window[leftElem] == require[leftElem] {
 					matchCount--
 				}
@@ -106,4 +108,79 @@ func shortestSeq[T Ordered](big []T, small []T) []int {
 		}
 	}
 	return ans
+}
+
+// 给定两个字符串 s 和 t 。返回 s 中包含 t 的所有字符的最短子字符串。如果 s 中不存
+// 在符合条件的子字符串，则返回空字符串"" 。如果 s 中存在多个符合条件的子字符串,
+// 返回任意一个。
+// 注意：对于 t 中重复字符，我们寻找的子字符串中该字符数量必须不少于 t 中该字符数量。
+// 输入: s = "ADOBECODEBANC", t = "ABC"
+// 输出: "BANC"
+// 解释: "BANC" 包含了字符串 t 的所有字符'A','B','C'
+func minWindow(s string, t string) string {
+	// 边界条件
+	if len(s) == 0 || len(t) == 0 {
+		return ""
+	}
+
+	// 记录 t 中的字符及其数量
+	need := make(map[byte]int)
+	for i := range t {
+		need[t[i]]++
+	}
+
+	// 用于滑动窗口中记录字符数量
+	window := make(map[byte]int)
+
+	// 左右指针
+	left, right := 0, 0
+	// 记录最小覆盖子串的起始位置和长度
+	start, length := 0, math.MaxInt32
+	// 记录窗口中满足条件的字符数
+	valid := 0
+
+	for right < len(s) {
+		// 扩大窗口
+		c := s[right]
+		right++
+
+		// 如果该字符在 t 中
+		if need[c] > 0 {
+			window[c]++
+			// 当该字符在窗口中的数量满足 t 中的要求时，valid++
+			if window[c] == need[c] {
+				valid++
+			}
+		}
+
+		// 尝试缩小窗口
+		for valid == len(need) {
+			// 更新最小子串
+			if right-left < length {
+				start = left
+				length = right - left
+			}
+
+			// 移除左边的字符
+			d := s[left]
+			left++
+
+			// 如果该字符在 t 中
+			if need[d] > 0 {
+				// 如果窗口中的该字符数量等于 t 中的数量，valid--
+				if window[d] == need[d] {
+					valid--
+				}
+				window[d]--
+			}
+		}
+	}
+
+	// 如果找不到符合条件的子串，返回 ""
+	if length == math.MaxInt32 {
+		return ""
+	}
+
+	// 返回最小覆盖子串
+	return s[start : start+length]
 }
